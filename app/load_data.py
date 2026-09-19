@@ -11,14 +11,14 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
-logger = logging.getLogger(name)
+logger = logging.getLogger(__name__)
 
 with open("/run/secrets/db_password") as f:
     DB_PASSWORD = f.read().strip()
 
-DB_NAME = os.environ["DB_NAME"]
-DB_USER = os.environ["DB_USER"]
-DB_HOST = os.environ.get("DB_HOST", "db")
+DB_NAME = os.environ["POSTGRES_DB"]
+DB_USER = os.environ["POSTGRES_USER"]
+DB_HOST = "db"
 
 
 def fetch_rates(target_date: date) -> list[tuple]:
@@ -66,5 +66,5 @@ def load(target_date: date) -> None:
     logger.info("Загружено %d строк за %s", len(rows), target_date)
 
 
-if name == "main":
+if __name__ == "__main__":
     load(date.today())
