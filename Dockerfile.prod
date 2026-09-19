@@ -1,0 +1,28 @@
+FROM python:3.11-slim AS builder
+
+WORKDIR /install
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir --target=/install/deps -r requirements.txt
+
+
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/deps
+ENV PATH=/deps/bin:$PATH
+
+WORKDIR /app
+
+RUN useradd -m contuser
+
+COPY --from=builder /install/deps /deps
+
+COPY app/ /app/
+COPY data/ /app/data/
+
+RUN chown -R contuser:contuser /app
+USER contuser
+
+CMD ["python", "load_data.py"]
