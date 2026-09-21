@@ -30,11 +30,11 @@ services:
         db:
           condition: service_healthy
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD_FILE: /run/secrets/db_password
-      DB_NAME: ${POSTGRES_DB}
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_NAME: ${POSTGRES_DB}
+        DB_USER: ${POSTGRES_USER}
+        DB_PASSWORD_FILE: /run/secrets/db_password
     secrets:
       - db_password
     volumes:
