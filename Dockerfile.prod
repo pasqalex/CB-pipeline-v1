@@ -15,14 +15,14 @@ ENV PATH=/deps/bin:$PATH
 
 WORKDIR /app
 
-RUN useradd -m contuser
+RUN useradd -m 101010
 
 COPY --from=builder /install/deps /deps
 
 COPY app/ /app/
 COPY data/ /app/data/
 
-RUN chown -R contuser:contuser /app
-USER contuser
+RUN chown -R 101010:101010 /app
+USER 101010
 
-CMD ["python", "load_data.py"]
+CMD ["python", "/app/load_data.py"]
